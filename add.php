@@ -59,9 +59,6 @@ if (isset($_POST['submit'])) {
         <select name="genre_id" id="" placeholder="genre" value="<?= $genre ?>">
             <?php foreach($genres as $genre): ?>
             <option value=<?=$genre['id']?>><?=$genre['libelle']?></option>
-            <!-- <option value=2>manga</option>
-            <option value=3>roman philosophique</option>
-            <option value=4>BD</option> -->
             <?php endforeach; ?>
         </select>
     </div>

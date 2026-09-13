@@ -41,8 +41,7 @@ $genre = $livre['genre_id'];
     <div>
         <select name="genre_id">
             <?php foreach($genres as $gender): ?>
-            <option value="<?= $gender['id'] == $livre['genre_id'] ? $gender['id'] : '' ?>" <?= $gender['id'] == $livre['genre_id'] ? 'selected' : '' ?>><?= $gender['libelle']?></option>
-
+            <option value=<?= $gender['id'] ?> <?= $gender['id'] == $livre['genre_id'] ? 'selected' : '' ?>><?= $gender['libelle']?></option>
             <?php endforeach; ?>
         </select>
     </div>
