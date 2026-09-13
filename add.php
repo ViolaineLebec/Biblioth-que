@@ -1,8 +1,20 @@
-<?php
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+   <?php
 $titre = '';
 
 $pdo = new PDO('mysql:host=127.0.0.1;dbname=library;port=3506', 'root', 'root');
+
+$query2 = "SELECT * FROM genres";
+$stmt2 = $pdo->prepare($query2);
+$stmt2->execute();
+$genres = $stmt2->fetchAll(PDO::FETCH_ASSOC);
 
 if (isset($_POST['submit'])) {
     
@@ -10,7 +22,7 @@ if (isset($_POST['submit'])) {
         $titre = $_POST['titre'];
         $auteur = $_POST['auteur'];
         $description = $_POST['description'];
-        $genre = $_POST['genre'];
+        $genre = $_POST['genre_id'];
         
         $query = "INSERT INTO livres (titre, auteur, description, genre_id) VALUES (:titre, :auteur, :description, :genre)";
         $stmt = $pdo->prepare($query);
@@ -18,16 +30,18 @@ if (isset($_POST['submit'])) {
             'titre'=>$_POST['titre'],
             'auteur'=>$_POST['auteur'],  
             'description'=>$_POST['description'], 
-            'genre'=>$_POST['genre']
+            'genre'=>$_POST['genre_id']
             ]);
         echo "Livre ajouté";
     }else{
         echo "Le titre et l'auteur sont indispensables";
     }
 }
+
+
 ?>
 
-<form method="post">
+<form method="post" class="container">
     
     <div>
                 <input type="text" name="titre" placeholder="titre" required value="<?= $titre ?>">
@@ -38,15 +52,17 @@ if (isset($_POST['submit'])) {
     </div>
 
     <div>
-                <textarea name="description" placeholder="message" value ="<?= $description ?>"></textarea>
+                <textarea name="description" placeholder="résumé"><?= $description ?></textarea>
     </div>
 
     <div>
         <select name="genre_id" id="" placeholder="genre" value="<?= $genre ?>">
-            <option value=1>roman historique</option>
-            <option value=2>manga</option>
+            <?php foreach($genres as $genre): ?>
+            <option value=<?=$genre['id']?>><?=$genre['libelle']?></option>
+            <!-- <option value=2>manga</option>
             <option value=3>roman philosophique</option>
-            <option value=4>BD</option>
+            <option value=4>BD</option> -->
+            <?php endforeach; ?>
         </select>
     </div>
 
@@ -55,4 +71,6 @@ if (isset($_POST['submit'])) {
     </div>
 
 
-</form>
+</form> 
+</body>
+</html>
